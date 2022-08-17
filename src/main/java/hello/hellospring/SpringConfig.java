@@ -1,23 +1,23 @@
 package hello.hellospring;
 
-import hello.hellospring.repository.JdbcMemberRepository;
-import hello.hellospring.repository.MemberRepository;
-import hello.hellospring.repository.MemoryMemberRepository;
+import hello.hellospring.repository.*;
 import hello.hellospring.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 
 @Configuration
 public class SpringConfig {
 
-    private DataSource dataSource;
+    private EntityManager em;
 
-    @Autowired
-    public SpringConfig(DataSource dataSource) {
-        this.dataSource = dataSource;
+    @Autowired  // spring에서 DI 해준다!
+    // @PersistenceContext 로 받아야 하지만 Autowired 사용 가능
+    public SpringConfig(EntityManager em) {
+        this.em = em;
     }
 
     @Bean
@@ -28,6 +28,8 @@ public class SpringConfig {
     @Bean
     public MemberRepository memberRepository() {
 //        return new MemoryMemberRepository();
-        return new JdbcMemberRepository(dataSource);
+//        return new JdbcMemberRepository(dataSource);
+//        return new JdbcTemplateMemberRepository(dataSource);
+        return new JpaMemberRepository(em);
     }
 }

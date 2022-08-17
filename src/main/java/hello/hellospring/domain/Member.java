@@ -1,7 +1,14 @@
 package hello.hellospring.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Member {
 
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;    // system이 회원을 구분하기 위해 부여하는 식별자 id
     private String name;
 
